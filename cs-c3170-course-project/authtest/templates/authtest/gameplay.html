@@ -1,0 +1,175 @@
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script>
+  window.onload = function() {
+  // Get the window displayed in the iframe.
+  var receiver = document.getElementById('receiver').contentWindow;
+
+  // Get a reference to the 'Send Message' button.
+  //var btnLoad = document.getElementById('load');
+  //var messageEle = document.getElementById('message');
+
+
+  // LOAD (Service to Game).
+  function loadState() {
+    gameState = "{{game.gameState}}";
+    s = JSON.parse(gameState.replace(/&quot;/g,'"'));
+    
+
+    var message = {
+      messageType : "LOAD",
+      gameState : {
+        playerItems : s.playerItems,
+        score: {{game.score}}
+      }
+    };
+    receiver.postMessage(message, "*");
+  }
+   
+   function receiveMessage(e) {
+    msg = e.data;
+    if (msg.messageType == "SCORE"){
+      submitScore(msg);
+    }
+    else if (msg.messageType == "LOAD_REQUEST"){
+      loadState();
+    }
+    else if (msg.messageType == "SAVE"){
+      save(msg);
+    }
+  }
+
+
+  //For getting CSRF token
+function getCookie(name) {
+       var cookieValue = null;
+       if (document.cookie && document.cookie != '') {
+         var cookies = document.cookie.split(';');
+         for (var i = 0; i < cookies.length; i++) {
+         var cookie = jQuery.trim(cookies[i]);
+         // Does this cookie string begin with the name we want?
+         if (cookie.substring(0, name.length + 1) == (name + '=')) {
+             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+             break;
+          }
+     }
+ }
+ return cookieValue;
+}
+  function submitScore(msg){
+    var csrftoken = getCookie('csrftoken');
+    type = "SCORE";
+    $.ajax({
+            "type": "POST",
+            "dataType": "json",
+            "url": "/authtest/playerhome/gameplay/{{game.game.id}}/",
+            "data": {
+              csrfmiddlewaretoken : csrftoken,
+              score: msg.score,
+              type: type
+            },
+            "success": function(result) {
+                console.log("success");
+            },
+        });
+
+  }
+  function save(msg){
+    score = msg.gameState.score;
+    gameState = JSON.stringify(msg.gameState);
+    var csrftoken = getCookie('csrftoken');
+    type = "SAVE";
+    $.ajax({
+            "type": "POST",
+            "dataType": "json",
+            "url": "/authtest/playerhome/gameplay/{{game.game.id}}/",
+            "data": {
+              csrfmiddlewaretoken : csrftoken,
+              gameState: gameState,
+              score: score,
+              type : type
+            },
+            "success": function(result) {
+                console.log("success");
+            },
+        });
+
+
+  }
+
+  // Add an event listener that will execute the sendMessage() function
+  // when the send button is clicked.
+  //btnLoad.addEventListener('click', loadState);
+  window.addEventListener('message', receiveMessage);
+}
+</script>
+</head>
+<body>
+<nav class="navbar navbar-default" style="background-color: whitesmoke ;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Online Game Store</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar" style="margin-left:20%">
+    <form class="navbar-form navbar-left">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="submit">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/authtest/playerhome/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        <li><a href="/authtest/playerhome/mygames"><span class="glyphicon glyphicon-eye-open"></span> My Games</a></li>
+        <li><a href="/authtest/logout/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class = "container">
+  <div class="row">
+    <div class="col-md-8">
+      <iframe id = "receiver" name = "iframe1" src = "https://wsdproject-game.herokuapp.com/polls/"  height = "450px"  width = "500px">
+      <p>Your browser does not support iframes.</p>
+      </iframe>
+    </div>
+    <div class="col-md-4">
+            
+            <div class="panel panel-primary">
+              <div class="panel-heading">{{game.game.name}} High Scores Chart</div>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>High Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for h in hscores %}
+                <tr>
+                   <td>{{h.player.user.username}}</td>
+                   <td>{{h.highScore}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+    
+    </div>
+  </div>
+</div>
+</body>

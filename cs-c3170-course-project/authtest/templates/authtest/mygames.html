@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+    <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- <link rel="stylesheet" href="{% static 'css/main.css' %}"> -->
+
+        <!-- Website CSS style -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+        <!-- Website Font style -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        
+        <!-- Google Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+
+        <title>Players Home</title>
+    </head>
+     <body>  
+     <h3>My Games</h3>
+        <div class = "row">
+        {% for g in boughtGames %}
+            <div class= "col-md-3">
+                <ul>
+                    <li>{{g.game.name}}</li>
+                    <li>{{g.game.category}}</li>
+                    <li><a href="/authtest/playerhome/gameplay/{{g.game.id}}"><button class="btn-success"> Play it </button></a></li>
+
+                    
+                </ul>
+            </div>
+        {% endfor %}
+        </div>
+        </body>
+</html> 

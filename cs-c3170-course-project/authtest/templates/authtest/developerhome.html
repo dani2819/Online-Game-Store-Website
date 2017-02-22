@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/dev.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function(){
+    {% for game in games %}
+    $("#{{game.id}}").click(function(){
+        var r = confirm("Are you sure?");
+        if (r==true){
+          window.location.href = "http://localhost:8000/authtest/developerhome/delete/{{game.id}}";
+        }
+    });
+    {% endfor %}
+});
+  </script>
+</head>
+<body style="background-color: whitesmoke">
+
+<nav class="navbar navbar-default" style="background-color: whitesmoke ;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Online Game Store</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar" style="margin-left:20%">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        <li><a href="/authtest/developerhome/allgames"><span class="glyphicon glyphicon-eye-open"></span> Game on Sales</a></li>
+        <li><a href="/authtest/logout/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
+  <p class="text-centre"><a href="/authtest/developerhome/addgame" class="btn btn-lg btn-warning"><span class=" glyphicon glyphicon-plus"></span> Add New Game</a></p>
+  <h3>Your Games</h3>
+  <hr/>
+  <div class="row" style="margin-top:5%">
+    <div class="col-md-8">
+      <ul class="event-list">
+      {% for game in games %}
+          <li>
+            <img alt="Independence Day" src="{{game.image_path}}" />
+            <div class="info">
+              <h2 class="title">{{game.name}}</h2>
+              <p class="desc">{{game.price}}€</p>
+            </div>
+            <div class="social">
+              <ul>
+                <li class="twitter" style="width:34%;"><a href="/authtest/developerhome/edit/{{game.id}}"><span class="fa fa-pencil-square-o"></span></a></li>
+                <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
+                <li class="google-plus" style="width:33%;"><a id="{{game.id}}"><span class="fa fa-trash-o"></span></a></li>
+              </ul>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-4">
+      
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
