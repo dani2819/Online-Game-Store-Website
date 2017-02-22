@@ -1,5 +1,4 @@
-
-
+#Online Game Store Website
 You can view the deployed project on http://rafay-wsdproject.herokuapp.com/authtest/
 Login Credentials for developer:
 Username: dani
