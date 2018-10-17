@@ -1,15 +1,17 @@
-#Online Game Store Website
+**Online Game Store Website**
 You can view the deployed project on http://rafay-wsdproject.herokuapp.com/authtest/
-Login Credentials for developer:
+
+**Login Credentials for developer:**
 Username: dani
 Password: dani2819
-Login Credentials for player:
+
+**Login Credentials for player:**
 Username: rafay
 Password: dani2819
 
 The project contains following features:
 
-###Developer Module:
+**Developer Module:**
 The game developers have an inventory of games that are on sale on the site. New games are added to the inventory by giving a link to an URL of the game, which is an HTML file that should be displayed in an iframe to the player. The platform support a simple message system, the games will send message events to the parent document informing on the score of the game. The platform have a global high score for each game, where top scores for each game is displayed. 
 - Add the games to inventory
 - Edit games
@@ -17,11 +19,11 @@ The game developers have an inventory of games that are on sale on the site. New
 - See list of games on sales 
 - See number of sales (sales statistics)
 
-###Payment Service
+**Payment Service**
 Players pay for the games they want to play by using an external Simple Payments service. This service mimics an online bank payment service. Documentation and usage examples can be found on the Simple Payments site: http://payments.webcourse.niksula.hut.fi/ 
 
 
-###Player Module
+**Player Module**
 
 - View the games
 - Search games by category
@@ -29,7 +31,7 @@ Players pay for the games they want to play by using an external Simple Payments
 - Play the game (hosted on the URL given by developer) 
 - See game high scores while playing
 
-###Game Service Interaction
+**Game Service Interaction**
 
 Game and the game service communicate with window.postMessage. All the messages must contain a messageType attribute, which can be one of six things:
 
@@ -64,14 +66,14 @@ Game and the game service communicate with window.postMessage. All the messages 
     Sent from the game to the service once the game finishes loading
     Must contain options attribute, which tells game specific configuration to the service. This is mainly used to adjust the layout in the service by providing a desired resolution in pixels, see examples for details.
 
-###User Registration and Login
+**User Registration and Login**
 - Form created by using Django form functionality.
 - Login and logout handled using Django Authentication System
 
-###Django Rest Framework
+**Django Rest Framework**
 
 REST API has been create using DJANGO REST framework to see the list of users. (http://rafay-wsdproject.herokuapp.com/api/)
 
-###Responsive Design
+**Responsive Design**
 
 For creating responsive design, bootstrap is used all over the project.
