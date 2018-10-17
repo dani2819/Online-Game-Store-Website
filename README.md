@@ -5,11 +5,13 @@ You can view the deployed project on http://rafay-wsdproject.herokuapp.com/autht
 **Login Credentials for developer:**
 
 Username: dani
+
 Password: dani2819
 
 **Login Credentials for player:**
 
 Username: rafay
+
 Password: dani2819
 
 The project contains following features:
